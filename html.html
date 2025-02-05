@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Send Email</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Send an Email</h1>
+        <form id="emailForm">
+            <label for="recipient">Recipient Email:</label>
+            <input type="email" id="recipient" name="recipient" placeholder="Enter recipient email" required>
+
+            <label for="subject">Subject:</label>
+            <input type="text" id="subject" name="subject" placeholder="Enter subject" required>
+
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" rows="5" placeholder="Write your message here" required></textarea>
+
+            <button type="submit">Send Email</button>
+        </form>
+        <p id="status"></p>
+    </div>
+
+    <script>
+        const form = document.getElementById('emailForm');
+        const status = document.getElementById('status');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const formData = {
+                recipient: form.recipient.value,
+                subject: form.subject.value,
+                message: form.message.value,
+            };
+
+            try {
+                const response = await fetch('/send-email', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData),
+                });
+
+                const result = await response.json();
+                status.textContent = result.message;
+                status.style.color = result.message === 'Email sent successfully!' ? 'green' : 'red';
+            } catch (error) {
+                status.textContent = 'Error sending email.';
+                status.style.color = 'red';
+            }
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
